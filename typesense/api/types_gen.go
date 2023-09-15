@@ -446,7 +446,7 @@ type MultiSearchParameters struct {
 
 // MultiSearchResult defines model for MultiSearchResult.
 type MultiSearchResult struct {
-	Results []SearchResult `json:"results"`
+	Results []MultiSearchResultElement `json:"results"`
 }
 
 // MultiSearchSearchesParameter defines model for MultiSearchSearchesParameter.
@@ -456,7 +456,7 @@ type MultiSearchSearchesParameter struct {
 
 // SearchGroupedHit defines model for SearchGroupedHit.
 type SearchGroupedHit struct {
-	GroupKey []string `json:"group_key"`
+	GroupKey []interface{} `json:"group_key"`
 
 	// Hits The documents that matched the search query
 	Hits []SearchResultHit `json:"hits"`
@@ -546,6 +546,41 @@ type SearchOverrideSchema struct {
 // SearchOverridesResponse defines model for SearchOverridesResponse.
 type SearchOverridesResponse struct {
 	Overrides []*SearchOverride `json:"overrides"`
+}
+
+type MultiSearchResultElement struct {
+	FacetCounts *[]FacetCounts `json:"facet_counts,omitempty"`
+
+	// Found The number of documents found
+	Found       *int                `json:"found,omitempty"`
+	GroupedHits *[]SearchGroupedHit `json:"grouped_hits,omitempty"`
+
+	// Hits The documents that matched the search query
+	Hits *[]SearchResultHit `json:"hits,omitempty"`
+
+	// OutOf The total number of documents in the collection
+	OutOf *int `json:"out_of,omitempty"`
+
+	// Page The search result page number
+	Page          *int `json:"page,omitempty"`
+	RequestParams *struct {
+		CollectionName string `json:"collection_name"`
+		PerPage        int    `json:"per_page"`
+		Q              string `json:"q"`
+	} `json:"request_params,omitempty"`
+
+	// SearchCutoff Whether the search was cut off
+	SearchCutoff *bool `json:"search_cutoff,omitempty"`
+
+	// SearchTimeMs The number of milliseconds the search took
+	SearchTimeMs *int `json:"search_time_ms,omitempty"`
+
+	// In case of error, the error code
+	Code *int `json:"code,omitempty"`
+
+	// In case of error, the error message
+	Message *string `json:"message,omitempty"`
+
 }
 
 // SearchResult defines model for SearchResult.
